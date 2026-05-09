@@ -169,6 +169,48 @@
         font-size: clamp(0.92rem, 1.8vw, 0.98rem);
       }
 
+      .aspect-panel {
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        border-radius: 12px;
+        padding: 0.9rem;
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .aspect-select {
+        width: 100%;
+        border: 1px solid var(--input-border);
+        border-radius: 10px;
+        background: var(--input-bg);
+        color: var(--text);
+        min-height: 46px;
+        padding: 0.6rem 0.7rem;
+        font-size: clamp(0.92rem, 1.8vw, 0.98rem);
+      }
+
+      .aspect-summary {
+        margin: 0;
+        color: var(--preview-label);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .aspect-summary span {
+        color: var(--primary);
+      }
+
+      .custom-ratio-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .custom-ratio-controls[hidden] {
+        display: none;
+      }
+
+
       .upload-drop-area {
         border: 2px dashed var(--input-border);
         border-radius: 12px;
@@ -192,6 +234,7 @@
       }
 
       input:focus-visible,
+      select:focus-visible,
       button:focus-visible {
         outline: 3px solid rgba(37, 99, 235, 0.22);
         outline-offset: 1px;
@@ -518,6 +561,7 @@
         }
 
         .dimension-grid,
+        .custom-ratio-controls,
         .button-row {
           grid-template-columns: 1fr;
         }
@@ -550,6 +594,95 @@
               <p>Drag &amp; Drop or Paste Image or Click to Upload</p>
             </div>
             <input id="imageUpload" name="imageUpload" type="file" accept="image/*" />
+          </div>
+
+          <div class="aspect-panel">
+            <div>
+              <label for="aspectRatioSelect">Aspect ratio</label>
+              <select id="aspectRatioSelect" class="aspect-select" name="aspectRatio">
+                <optgroup label="Basic">
+                  <option value="free">Free Form</option>
+                  <option value="original">Original</option>
+                  <option value="custom">Custom</option>
+                </optgroup>
+                <optgroup label="Standard Ratios">
+                  <option value="square">Square (1:1)</option>
+                  <option value="standard-4-3">Standard (4:3)</option>
+                  <option value="widescreen-16-9">Widescreen (16:9)</option>
+                  <option value="photo-3-2">Photo (3:2)</option>
+                  <option value="portrait-2-3">Portrait (2:3)</option>
+                  <option value="monitor-16-10">Monitor (16:10)</option>
+                  <option value="ratio-14-9">14:9</option>
+                  <option value="ratio-2-1">2:1</option>
+                  <option value="panorama-3-1">Panorama (3:1)</option>
+                  <option value="ultra-panorama-4-1">Ultra Panorama (4:1)</option>
+                  <option value="film-35mm-3-2">35mm Film (3:2)</option>
+                  <option value="ratio-5-4">5:4</option>
+                  <option value="ratio-7-5">7:5</option>
+                  <option value="ratio-19-10">19:10</option>
+                  <option value="cinemascope-21-9">Cinemascope (21:9)</option>
+                  <option value="super-ultra-wide-32-9">Super Ultra Wide (32:9)</option>
+                </optgroup>
+                <optgroup label="Social Media — Facebook">
+                  <option value="facebook-profile">Profile (170×170)</option>
+                  <option value="facebook-cover">Cover (820×312)</option>
+                  <option value="facebook-post">Post (1200×900)</option>
+                  <option value="facebook-ad">Ad (1280×720)</option>
+                </optgroup>
+                <optgroup label="Social Media — Instagram">
+                  <option value="instagram-profile">Profile (110×110)</option>
+                  <option value="instagram-post">Post (1080×1080)</option>
+                  <option value="instagram-portrait-post">Portrait Post (1080×1350)</option>
+                  <option value="instagram-story">Story (1080×1920)</option>
+                  <option value="instagram-reel-cover">Reel Cover (1080×1920)</option>
+                </optgroup>
+                <optgroup label="Social Media — Twitter/X">
+                  <option value="twitter-profile">Profile (400×400)</option>
+                  <option value="twitter-header">Header (1500×500)</option>
+                  <option value="twitter-post">Post (1024×512)</option>
+                  <option value="twitter-card">Card (1200×628)</option>
+                  <option value="twitter-ad">Ad (1200×675)</option>
+                </optgroup>
+                <optgroup label="Social Media — YouTube">
+                  <option value="youtube-profile">Profile (800×800)</option>
+                  <option value="youtube-channel-art">Channel Art (2560×1440)</option>
+                  <option value="youtube-thumbnail">Thumbnail (1280×720)</option>
+                </optgroup>
+                <optgroup label="Social Media — TikTok">
+                  <option value="tiktok-video">Video (1080×1920)</option>
+                </optgroup>
+                <optgroup label="Social Media — LinkedIn">
+                  <option value="linkedin-profile">Profile (400×400)</option>
+                  <option value="linkedin-banner">Banner (1584×396)</option>
+                </optgroup>
+                <optgroup label="Web &amp; Screen">
+                  <option value="web-mini">Web Mini (1024×768)</option>
+                  <option value="web-small">Web Small (1280×800)</option>
+                  <option value="web-common">Web Common (1366×768)</option>
+                  <option value="web-medium">Web Medium (1440×900)</option>
+                  <option value="full-hd">Full HD (1920×1080)</option>
+                  <option value="qhd-2k">2K QHD (2560×1440)</option>
+                  <option value="ultra-hd-4k">Ultra HD 4K (3840×2160)</option>
+                </optgroup>
+                <optgroup label="Print &amp; Paper">
+                  <option value="a4">A4 (2480×3508)</option>
+                  <option value="a5">A5 (1748×2480)</option>
+                  <option value="a6">A6 (1240×1748)</option>
+                  <option value="letter">Letter (2550×3300)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="custom-ratio-controls" hidden>
+              <div>
+                <label for="customRatioWidth">Custom width</label>
+                <input id="customRatioWidth" class="dimension-input" type="number" inputmode="numeric" min="1" step="1" value="1" />
+              </div>
+              <div>
+                <label for="customRatioHeight">Custom height</label>
+                <input id="customRatioHeight" class="dimension-input" type="number" inputmode="numeric" min="1" step="1" value="1" />
+              </div>
+            </div>
+            <p class="aspect-summary">Selected ratio: <span id="selectedAspectLabel">Free Form</span></p>
           </div>
 
           <div class="editor-shell" aria-live="polite">
@@ -645,6 +778,11 @@
       const cropWidthInput = document.getElementById("cropWidth");
       const cropHeightInput = document.getElementById("cropHeight");
       const cropInputs = [cropXInput, cropYInput, cropWidthInput, cropHeightInput];
+      const aspectRatioSelect = document.getElementById("aspectRatioSelect");
+      const selectedAspectLabel = document.getElementById("selectedAspectLabel");
+      const customRatioControls = document.querySelector(".custom-ratio-controls");
+      const customRatioWidthInput = document.getElementById("customRatioWidth");
+      const customRatioHeightInput = document.getElementById("customRatioHeight");
       const editorPlaceholder = document.querySelector(".editor-placeholder");
       const resultPlaceholder = document.querySelector(".result-placeholder");
       const resultImage = document.querySelector(".result-image");
@@ -655,7 +793,61 @@
       const root = document.documentElement;
       const themeToggle = document.getElementById("themeToggle");
       const themeStorageKey = "quickresizes-theme";
+      const aspectStorageKey = "quickresizes-crop-aspect-ratio";
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      const aspectRatioPresets = {
+        free: { label: "Free Form", ratio: null },
+        original: { label: "Original", ratio: "original" },
+        custom: { label: "Custom", ratio: "custom" },
+        square: { label: "Square (1:1)", ratio: 1 },
+        "standard-4-3": { label: "Standard (4:3)", ratio: 4 / 3 },
+        "widescreen-16-9": { label: "Widescreen (16:9)", ratio: 16 / 9 },
+        "photo-3-2": { label: "Photo (3:2)", ratio: 3 / 2 },
+        "portrait-2-3": { label: "Portrait (2:3)", ratio: 2 / 3 },
+        "monitor-16-10": { label: "Monitor (16:10)", ratio: 16 / 10 },
+        "ratio-14-9": { label: "14:9", ratio: 14 / 9 },
+        "ratio-2-1": { label: "2:1", ratio: 2 },
+        "panorama-3-1": { label: "Panorama (3:1)", ratio: 3 },
+        "ultra-panorama-4-1": { label: "Ultra Panorama (4:1)", ratio: 4 },
+        "film-35mm-3-2": { label: "35mm Film (3:2)", ratio: 3 / 2 },
+        "ratio-5-4": { label: "5:4", ratio: 5 / 4 },
+        "ratio-7-5": { label: "7:5", ratio: 7 / 5 },
+        "ratio-19-10": { label: "19:10", ratio: 19 / 10 },
+        "cinemascope-21-9": { label: "Cinemascope (21:9)", ratio: 21 / 9 },
+        "super-ultra-wide-32-9": { label: "Super Ultra Wide (32:9)", ratio: 32 / 9 },
+        "facebook-profile": { label: "Facebook Profile (170×170)", ratio: 1 },
+        "facebook-cover": { label: "Facebook Cover (820×312)", ratio: 820 / 312 },
+        "facebook-post": { label: "Facebook Post (1200×900)", ratio: 1200 / 900 },
+        "facebook-ad": { label: "Facebook Ad (1280×720)", ratio: 1280 / 720 },
+        "instagram-profile": { label: "Instagram Profile (110×110)", ratio: 1 },
+        "instagram-post": { label: "Instagram Post (1080×1080)", ratio: 1 },
+        "instagram-portrait-post": { label: "Instagram Portrait Post (1080×1350)", ratio: 1080 / 1350 },
+        "instagram-story": { label: "Instagram Story (1080×1920)", ratio: 1080 / 1920 },
+        "instagram-reel-cover": { label: "Instagram Reel Cover (1080×1920)", ratio: 1080 / 1920 },
+        "twitter-profile": { label: "Twitter/X Profile (400×400)", ratio: 1 },
+        "twitter-header": { label: "Twitter/X Header (1500×500)", ratio: 1500 / 500 },
+        "twitter-post": { label: "Twitter/X Post (1024×512)", ratio: 1024 / 512 },
+        "twitter-card": { label: "Twitter/X Card (1200×628)", ratio: 1200 / 628 },
+        "twitter-ad": { label: "Twitter/X Ad (1200×675)", ratio: 1200 / 675 },
+        "youtube-profile": { label: "YouTube Profile (800×800)", ratio: 1 },
+        "youtube-channel-art": { label: "YouTube Channel Art (2560×1440)", ratio: 2560 / 1440 },
+        "youtube-thumbnail": { label: "YouTube Thumbnail (1280×720)", ratio: 1280 / 720 },
+        "tiktok-video": { label: "TikTok Video (1080×1920)", ratio: 1080 / 1920 },
+        "linkedin-profile": { label: "LinkedIn Profile (400×400)", ratio: 1 },
+        "linkedin-banner": { label: "LinkedIn Banner (1584×396)", ratio: 1584 / 396 },
+        "web-mini": { label: "Web Mini (1024×768)", ratio: 1024 / 768 },
+        "web-small": { label: "Web Small (1280×800)", ratio: 1280 / 800 },
+        "web-common": { label: "Web Common (1366×768)", ratio: 1366 / 768 },
+        "web-medium": { label: "Web Medium (1440×900)", ratio: 1440 / 900 },
+        "full-hd": { label: "Full HD (1920×1080)", ratio: 1920 / 1080 },
+        "qhd-2k": { label: "2K QHD (2560×1440)", ratio: 2560 / 1440 },
+        "ultra-hd-4k": { label: "Ultra HD 4K (3840×2160)", ratio: 3840 / 2160 },
+        a4: { label: "A4 (2480×3508)", ratio: 2480 / 3508 },
+        a5: { label: "A5 (1748×2480)", ratio: 1748 / 2480 },
+        a6: { label: "A6 (1240×1748)", ratio: 1240 / 1748 },
+        letter: { label: "Letter (2550×3300)", ratio: 2550 / 3300 },
+      };
 
       let currentFileUrl = "";
       let croppedImageUrl = "";
@@ -674,6 +866,12 @@
       }
 
       applyTheme(localStorage.getItem(themeStorageKey) === "dark" ? "dark" : "light");
+
+      const savedAspectRatio = localStorage.getItem(aspectStorageKey);
+      if (savedAspectRatio && aspectRatioPresets[savedAspectRatio]) {
+        aspectRatioSelect.value = savedAspectRatio;
+      }
+      updateAspectLabel();
 
       themeToggle.addEventListener("click", () => {
         const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
@@ -757,6 +955,120 @@
         return Math.min(Math.max(value, min), max);
       }
 
+      function readPositiveNumber(input, fallback) {
+        const value = Number.parseFloat(input.value);
+        return Number.isFinite(value) && value > 0 ? value : fallback;
+      }
+
+      function getActiveAspectRatio() {
+        const preset = aspectRatioPresets[aspectRatioSelect.value] || aspectRatioPresets.free;
+
+        if (preset.ratio === "original") {
+          return imageMeta?.width && imageMeta?.height ? imageMeta.width / imageMeta.height : null;
+        }
+
+        if (preset.ratio === "custom") {
+          const width = readPositiveNumber(customRatioWidthInput, 1);
+          const height = readPositiveNumber(customRatioHeightInput, 1);
+          return width / height;
+        }
+
+        return preset.ratio;
+      }
+
+      function getAspectFitRect(ratio, baseRect = null) {
+        const stage = getStageSize();
+        const sourceRect = baseRect || getCenteredCropRect();
+        const availableWidth = Math.max(1, stage.width);
+        const availableHeight = Math.max(1, stage.height);
+        let width = clamp(sourceRect.width, 1, availableWidth);
+        let height = width / ratio;
+
+        if (height > availableHeight) {
+          height = availableHeight;
+          width = height * ratio;
+        }
+
+        const centerX = sourceRect.x + sourceRect.width / 2;
+        const centerY = sourceRect.y + sourceRect.height / 2;
+
+        return {
+          x: clamp(centerX - width / 2, 0, availableWidth - width),
+          y: clamp(centerY - height / 2, 0, availableHeight - height),
+          width,
+          height,
+        };
+      }
+
+      function updateAspectLabel() {
+        const preset = aspectRatioPresets[aspectRatioSelect.value] || aspectRatioPresets.free;
+        const ratio = getActiveAspectRatio();
+        const ratioText = ratio ? ` · ${ratio.toFixed(3)}:1` : "";
+        selectedAspectLabel.textContent = `${preset.label}${ratioText}`;
+        customRatioControls.hidden = aspectRatioSelect.value !== "custom";
+      }
+
+      function applyActiveAspectRatio() {
+        updateAspectLabel();
+        localStorage.setItem(aspectStorageKey, aspectRatioSelect.value);
+
+        const ratio = getActiveAspectRatio();
+        if (!imageMeta || !ratio) {
+          return;
+        }
+
+        applyCropRect(getAspectFitRect(ratio, cropRect.width && cropRect.height ? cropRect : null));
+        updateDimensionControls(true);
+        clearResult();
+      }
+
+      function constrainRectToAspect(nextRect, ratio, anchor = "center") {
+        if (!ratio) {
+          return nextRect;
+        }
+
+        const stage = getStageSize();
+        let width = clamp(nextRect.width, 1, stage.width);
+        let height = width / ratio;
+
+        if (height > stage.height) {
+          height = stage.height;
+          width = height * ratio;
+        }
+
+        if (width > stage.width) {
+          width = stage.width;
+          height = width / ratio;
+        }
+
+        if (height > stage.height) {
+          height = stage.height;
+          width = height * ratio;
+        }
+
+        let x = nextRect.x;
+        let y = nextRect.y;
+
+        if (anchor === "center") {
+          x = nextRect.x + nextRect.width / 2 - width / 2;
+          y = nextRect.y + nextRect.height / 2 - height / 2;
+        } else {
+          if (anchor.includes("w")) {
+            x = nextRect.x + nextRect.width - width;
+          }
+          if (anchor.includes("n")) {
+            y = nextRect.y + nextRect.height - height;
+          }
+        }
+
+        return {
+          x: clamp(x, 0, stage.width - width),
+          y: clamp(y, 0, stage.height - height),
+          width,
+          height,
+        };
+      }
+
       function updateDimensionControls(force = false) {
         if (!imageMeta || cropStage.hidden) {
           return;
@@ -815,8 +1127,10 @@
       }
 
       function setInitialCropBox() {
-        applyCropRect(getCenteredCropRect());
+        const ratio = getActiveAspectRatio();
+        applyCropRect(ratio ? getAspectFitRect(ratio) : getCenteredCropRect());
         updateDimensionControls(true);
+        updateAspectLabel();
       }
 
       function updateCropForResize(previousStage) {
@@ -832,6 +1146,10 @@
           width: (cropRect.width / previousStage.width) * stage.width,
           height: (cropRect.height / previousStage.height) * stage.height,
         };
+        const ratio = getActiveAspectRatio();
+        if (ratio) {
+          cropRect = getAspectFitRect(ratio, cropRect);
+        }
         constrainCropRect();
         renderCropBox();
       }
@@ -954,11 +1272,25 @@
 
         if (activeAction.handle === "draw") {
           const point = getPointerPoint(event);
-          const x = Math.min(activeAction.origin.x, point.x);
-          const y = Math.min(activeAction.origin.y, point.y);
-          const width = Math.max(minSize, Math.abs(point.x - activeAction.origin.x));
-          const height = Math.max(minSize, Math.abs(point.y - activeAction.origin.y));
-          applyCropRect({ x, y, width, height });
+          const ratio = getActiveAspectRatio();
+          const dx = point.x - activeAction.origin.x;
+          const dy = point.y - activeAction.origin.y;
+          let width = Math.max(minSize, Math.abs(dx));
+          let height = Math.max(minSize, Math.abs(dy));
+
+          if (ratio) {
+            height = width / ratio;
+            if (height > Math.max(minSize, Math.abs(dy))) {
+              height = Math.max(minSize, Math.abs(dy));
+              width = height * ratio;
+            }
+          }
+
+          const x = dx < 0 ? activeAction.origin.x - width : activeAction.origin.x;
+          const y = dy < 0 ? activeAction.origin.y - height : activeAction.origin.y;
+          const nextRect = { x, y, width, height };
+          const originAnchor = `${dy < 0 ? "s" : "n"}${dx < 0 ? "e" : "w"}`;
+          applyCropRect(ratio ? constrainRectToAspect(nextRect, ratio, originAnchor) : nextRect);
           clearResult();
           return;
         }
@@ -1031,7 +1363,13 @@
           }
         }
 
-        applyCropRect(next);
+        const ratio = getActiveAspectRatio();
+        if (ratio && activeAction.handle !== "move") {
+          const oppositeAnchors = { nw: "se", ne: "sw", sw: "ne", se: "nw" };
+          applyCropRect(constrainRectToAspect(next, ratio, oppositeAnchors[activeAction.handle] || "center"));
+        } else {
+          applyCropRect(next);
+        }
         clearResult();
       }
 
@@ -1117,7 +1455,7 @@
         return Number.isFinite(value) ? value : null;
       }
 
-      function applyDimensionInputs() {
+      function applyDimensionInputs(sourceInput = null) {
         if (!imageMeta) {
           return;
         }
@@ -1135,10 +1473,29 @@
           height: heightInput ?? currentPixels.height,
         };
 
+        const ratio = getActiveAspectRatio();
+        if (ratio) {
+          if (sourceInput === cropHeightInput) {
+            pixelRect.width = Math.round(pixelRect.height * ratio);
+          } else {
+            pixelRect.height = Math.round(pixelRect.width / ratio);
+          }
+        }
+
         pixelRect.x = clamp(pixelRect.x, 0, imageMeta.width - 1);
         pixelRect.y = clamp(pixelRect.y, 0, imageMeta.height - 1);
         pixelRect.width = clamp(pixelRect.width, 1, imageMeta.width - pixelRect.x);
         pixelRect.height = clamp(pixelRect.height, 1, imageMeta.height - pixelRect.y);
+
+        if (ratio) {
+          if (sourceInput === cropHeightInput) {
+            pixelRect.width = clamp(Math.round(pixelRect.height * ratio), 1, imageMeta.width - pixelRect.x);
+            pixelRect.height = clamp(Math.round(pixelRect.width / ratio), 1, imageMeta.height - pixelRect.y);
+          } else {
+            pixelRect.height = clamp(Math.round(pixelRect.width / ratio), 1, imageMeta.height - pixelRect.y);
+            pixelRect.width = clamp(Math.round(pixelRect.height * ratio), 1, imageMeta.width - pixelRect.x);
+          }
+        }
 
         const stage = getStageSize();
         const scaleX = stage.width / imageMeta.width;
@@ -1154,9 +1511,15 @@
       }
 
       cropInputs.forEach((input) => {
-        input.addEventListener("input", applyDimensionInputs);
-        input.addEventListener("change", applyDimensionInputs);
-        input.addEventListener("blur", updateDimensionControls);
+        input.addEventListener("input", () => applyDimensionInputs(input));
+        input.addEventListener("change", () => applyDimensionInputs(input));
+        input.addEventListener("blur", () => updateDimensionControls(true));
+      });
+
+      aspectRatioSelect.addEventListener("change", applyActiveAspectRatio);
+      [customRatioWidthInput, customRatioHeightInput].forEach((input) => {
+        input.addEventListener("input", applyActiveAspectRatio);
+        input.addEventListener("change", applyActiveAspectRatio);
       });
 
       cropButton.addEventListener("click", () => {
