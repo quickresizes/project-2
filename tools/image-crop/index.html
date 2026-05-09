@@ -709,19 +709,41 @@
         downloadButton.disabled = true;
       }
 
-      function resetEditor() {
-        currentFile = null;
-        imageMeta = null;
-        cropStage.hidden = true;
-        cropImage.removeAttribute("src");
+      function resetCropArea() {
+        activeAction = null;
+        cropRect = { x: 0, y: 0, width: 0, height: 0 };
+
+        if (renderFrame) {
+          cancelAnimationFrame(renderFrame);
+          renderFrame = 0;
+        }
+
+        ["left", "top", "width", "height"].forEach((property) => {
+          cropBox.style[property] = "";
+        });
         cropBox.style.display = "none";
+        delete cropBox.dataset.stageWidth;
+        delete cropBox.dataset.stageHeight;
         dimensionControls.hidden = true;
         cropInputs.forEach((input) => {
           input.value = "";
         });
-        editorPlaceholder.hidden = false;
         cropButton.disabled = true;
         clearResult();
+      }
+
+      function resetEditor() {
+        if (currentFileUrl) {
+          URL.revokeObjectURL(currentFileUrl);
+          currentFileUrl = "";
+        }
+
+        currentFile = null;
+        imageMeta = null;
+        cropStage.hidden = true;
+        cropImage.removeAttribute("src");
+        resetCropArea();
+        editorPlaceholder.hidden = false;
       }
 
       function getStageSize() {
@@ -777,19 +799,24 @@
         });
       }
 
-      function setInitialCropBox() {
+      function getCenteredCropRect() {
         const stage = getStageSize();
-        const width = Math.max(40, stage.width * 0.72);
-        const height = Math.max(40, stage.height * 0.72);
+        const minWidth = Math.min(40, stage.width);
+        const minHeight = Math.min(40, stage.height);
+        const width = clamp(stage.width * 0.72, minWidth, stage.width);
+        const height = clamp(stage.height * 0.72, minHeight, stage.height);
 
-        cropRect = {
-          x: (stage.width - width) / 2,
-          y: (stage.height - height) / 2,
+        return {
+          x: Math.max(0, (stage.width - width) / 2),
+          y: Math.max(0, (stage.height - height) / 2),
           width,
           height,
         };
+      }
 
-        renderCropBox();
+      function setInitialCropBox() {
+        applyCropRect(getCenteredCropRect());
+        updateDimensionControls(true);
       }
 
       function updateCropForResize(previousStage) {
@@ -830,22 +857,30 @@
         }
 
         currentFile = file;
+        imageMeta = null;
+        resetCropArea();
         currentFileUrl = URL.createObjectURL(file);
-        clearResult();
-        cropImage.src = currentFileUrl;
-        cropStage.hidden = false;
-        editorPlaceholder.hidden = true;
+        cropMimeType = ["image/jpeg", "image/png", "image/webp"].includes(file.type) ? file.type : "image/png";
 
         cropImage.onload = () => {
           imageMeta = {
             width: cropImage.naturalWidth,
             height: cropImage.naturalHeight,
           };
-          cropMimeType = ["image/jpeg", "image/png", "image/webp"].includes(file.type) ? file.type : "image/png";
-          setInitialCropBox();
-          cropButton.disabled = false;
-          dimensionControls.hidden = false;
+
+          window.requestAnimationFrame(() => {
+            setInitialCropBox();
+            const stage = getStageSize();
+            cropBox.dataset.stageWidth = stage.width;
+            cropBox.dataset.stageHeight = stage.height;
+            cropButton.disabled = false;
+            dimensionControls.hidden = false;
+          });
         };
+        cropImage.onerror = resetEditor;
+        cropStage.hidden = false;
+        editorPlaceholder.hidden = true;
+        cropImage.src = currentFileUrl;
       }
 
       function getCropPixels() {
